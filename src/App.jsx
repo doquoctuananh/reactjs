@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, {useState,useEffect, useCallback, useRef,useMemo} from 'react'
+import {createRoot} from 'react-dom/client'
+import './app.css'
+import Product from './Product.jsx'
+import {Cart} from "./Cart.jsx"
+
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [cart,setCart]  = useState([])
+
+	const products = [
+		{id:1,name:'Js',price:300},
+		{id:2,name:'Spring boot',price:700},
+		{id:3,name:'Java',price:500},
+		{id:4,name:'Reactjs',price:600},
+	]	
+	
+
+	const addProduct = useCallback((e) => {
+		let data = parseInt(e.target.getAttribute("data"));
+		
+		let findData = cart.findIndex(cur => cur.data === data);
+		if(findData !== -1){
+			cart[findData].count++
+			setCart(cart => [...cart])
+		}
+		else{
+			setCart(cart => [...cart ,{data,count:1}])
+		}
+		
+	},[products])
+
+	const totalQuatityProduct = useMemo(() => {
+		let total = cart.reduce((acc,cur,index) => {
+			return acc + cur.count;
+		},0)
+		return total;
+	},[cart])
+
+	const totalMoneyCart = useMemo(() => {
+		return cart.reduce((acc,cur,index) => {
+			let findProduct = products.find(product => product.id ==cur.data);
+			return acc + findProduct.price * cur.count;
+		},0)
+	},[cart])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	<>
+		<Product onClick = {addProduct} products = {products}/>
+		<Cart
+			cartRef = {cart}
+			totalQuantityProduct = {totalQuatityProduct}
+			totalMoneyCart = {totalMoneyCart}
+		/>
+
+		
+	</>
+  );
 }
 
 export default App
+
