@@ -4,6 +4,7 @@ import './app.css'
 import Product from './Product.jsx'
 import {Cart} from "./Cart.jsx"
 import ToDo from './Todo.jsx'
+import CartContext from './CartContext.jsx'
 
 function App() {
 	const [cart,setCart]  = useState([])
@@ -46,14 +47,16 @@ function App() {
 
   return (
 	<>
-		<Product onClick = {addProduct} products = {products}/>
+		{/* <Product onClick = {addProduct} products = {products}/>
 		<Cart
 			cartRef = {cart}
 			totalQuantityProduct = {totalQuatityProduct}
 			totalMoneyCart = {totalMoneyCart}
 		/>
 
-		<ToDo />
+		<ToDo /> */}
+
+		<CartContext />
 	</>
   );
 }
