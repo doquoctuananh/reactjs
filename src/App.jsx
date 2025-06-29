@@ -3,7 +3,7 @@ import {createRoot} from 'react-dom/client'
 import './app.css'
 import Product from './Product.jsx'
 import {Cart} from "./Cart.jsx"
-
+import ToDo from './Todo.jsx'
 
 function App() {
 	const [cart,setCart]  = useState([])
@@ -53,7 +53,7 @@ function App() {
 			totalMoneyCart = {totalMoneyCart}
 		/>
 
-		
+		<ToDo />
 	</>
   );
 }
