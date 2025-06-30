@@ -3,21 +3,31 @@ import {CartContextObj} from './CartContext';
 function CreateJob(){
     const {state,dispatch} = useContext(CartContextObj)
     const [job,setJob] = useState('')
-    const inputRef = useRef('')
+    const [price,setPrice] = useState()
+    
     useEffect( () => {
-        inputRef.current.value='';
+        setJob('')
+        setPrice('')
     },[state] )
     return (
         <div>
             <input 
-                ref={inputRef}
                 style={{padding:'20px'}}
                 value = {job}
                 onChange={(e) => setJob(e.target.value) }
                 placeholder='Them job'
             />
+
+            <input 
+                style={{padding:'20px'}}
+                value = {price}
+                type='number'
+                onChange={(e) => setPrice(e.target.value) }
+                placeholder='Them gia'
+            />
+
             <button
-                onClick = {() => dispatch({type: 'ADD', payload : job})}
+                onClick = {() => dispatch({type: 'ADD', payload : job, price:price})}
             >
                 Them
             </button>
